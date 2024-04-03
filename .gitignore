@@ -6,8 +6,5 @@ app/migrations
 app/__pycache__
 __pycache
 
-static
-
-db.sqlite3
 
 pharmacy/__pycache
