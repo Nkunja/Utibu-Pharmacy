@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Django App</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome {{ user.first_name }} {{ user.last_name }} </h1>
+
+        <nav>
+            <ul>
+                
+                <li><a href="{% url 'logout' %}" style="color: white;">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+{% endif %}
+
+    {% comment %} <section>
+        <div class="order-form">
+            <h2>Time to Request Your Medicine</h2>
+            <p>You are sick</p>
+            <form action="{% url 'submit_order' %}" method="post">
+                {% csrf_token %}
+                <label for="medication">Medication Name:</label>
+                <input type="text" id="medication" name="medication" required>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+                <button type="submit">Submit Order</button>
+            </form>
+        </div>
+    </section> {% endcomment %}
+   
+
+    <section>
+        <h2>Time to Request Your Medicine</h2>
+        <p>You are sick</p>
+        <p> Order now</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 My Django App</p>
+    </footer>
+</body>
+</html>

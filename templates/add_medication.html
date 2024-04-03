@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block maincontent %}
+<body>
+    <div class="container mt-5">
+        <h2>Add Medication</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add Medication</button>
+        </form>
+    </div>
+</body>
+{% endblock maincontent %}
+

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block maincontent %}
+<body>
+  <div class="card bg-white">
+    <div class='card-body'>
+      <header>
+          <h1>Welcome {{ user.first_name }} {{ user.last_name }} </h1>
+      </header>
+    </div>
+  </div>
+  
+  {% if error_message %}
+  <p>{{ error_message }}</p>
+  {% endif %}
+  
+  <section>
+      <p>Medications Table:</p>
+      <table id="medicationsTable" class="display table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for medication in medications %}
+          <tr>
+            <td>{{ medication.name }}</td>
+            <td>{{ medication.description }}</td>
+            <td>{{ medication.price }}</td>
+            <td>{{ medication.quantity_available }}</td>
+            <td>{{ medication.category }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5">No medications available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p>Orders List:</p>
+      <table id="ordersTable" class="display table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Medication</th>
+            <th>Quantity</th>
+            <th>User</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.medication }}</td>
+            <td>{{ order.user.email }}</td>
+            <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+            <td>{{ order.status }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">No orders available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </section>
+
+</body>
+
+{% endblock maincontent %}

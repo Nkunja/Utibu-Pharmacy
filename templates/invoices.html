@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block maincontent %}
+
+<div class='card mt-4'>
+
+    <div class="card-body">
+        <div class="row">
+            {% for invoice in invoices %}
+                <div class="col-lg-4 col-md-6 mt-4">
+                    <div class="border-0 outline-badge-success p-3 rounded text-center">
+                        <span class="h5 mb-0">{{ invoice.order }}</span><br/>
+                        {{ invoice.total_amount }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+</body>
+
+{% endblock maincontent %}
+
+
+
+
+
+
