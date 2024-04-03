@@ -12,7 +12,6 @@ The Utibu Health Pharmacy Management System is designed to streamline pharmacy o
 
 1. Clone the repository to your local machine:
 
-```bash
 git clone https://github.com/Nkunja/Utibu-Pharmacy.git
 Navigate to the project directory:
 bash
