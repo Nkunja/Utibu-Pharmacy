@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>My Django App</title>
+    <title>Pharmacy Admin</title>
     <!-- Bootstrap CSS -->
     <link href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
     <!-- Custom Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <style>
         /* Custom Styles */
         body {
@@ -43,12 +43,31 @@
         section {
             padding: 20px;
         }
+        .description {
+            text-align: center;
+        }
+        
+        .description h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .description p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
         footer {
-            background-color: #343a40; /* Dark blue footer */
-            color: #fff; /* White text */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #343a40; 
+            color: #fff; 
             padding: 10px;
             text-align: center;
         }
+        
     </style>
 </head>
 <body>
@@ -58,19 +77,22 @@
 
     <nav>
         <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
+            {% comment %} <li><a href="{% url 'index' %}">Home</a></li> {% endcomment %}
             <li><a href="{% url 'admin_login' %}">Login</a></li>
             <li><a href="{% url 'register' %}">Register</a></li>
         </ul>
     </nav>
 
     <section>
-        <h2>Time to work</h2>
-        <p>This is the content of your section. You can add more content here.</p>
+        <div class="description">
+            <h2>Welcome to the Pharmacy Admin Dashboard</h2>
+            <p>The Pharmacy Admin Dashboard provides comprehensive tools for the pharmacist at Utibu Health Center to efficiently manage inventory, customer orders, sales, invoices, and payments. With a user-friendly interface and intuitive navigation, the dashboard streamlines pharmacy operations, enhances productivity, and ensures smooth management of day-to-day tasks.</p>
+        </div>
     </section>
+    
 
     <footer>
-        <p>&copy; 2024 My Django App</p>
+        <p>&copy; 2024 Pharmacy Admin</p>
     </footer>
 
     <!-- Bootstrap JS -->
