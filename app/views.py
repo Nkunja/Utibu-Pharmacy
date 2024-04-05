@@ -9,18 +9,19 @@ from .models import Medication, Order,UserProfile
 from django.core.exceptions import ObjectDoesNotExist
 from .serializers import *
 from rest_framework import generics
-from .serializers import MedicationSerializer,UserLoginSerializer,UserRegistrationSerializer, UserProfileSerializer,OrderSerializer
+from .serializers import MedicationSerializer,UserLoginSerializer, UserProfileSerializer,OrderSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
-from django.contrib.auth import get_user_model
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.db import transaction
+
 
 def csrf_token(request):
     csrf_token = get_token(request)
@@ -248,61 +249,47 @@ def medication_details(request, medication_id):
         
     elif request.method == 'POST':
         try:
-            medication_instance = Medication.objects.get(id=medication_id)
-            
-            # Get the quantity from the request body
-            quantity = request.data.get('quantity')
-            totalPrice = request.data.get('totalPrice')
-            print('Quantity:', quantity)
-            
-            # Create the order
-            order = Order.objects.create(
-                medication=medication_instance,
-                user=request.user,
-                quantity=quantity, 
-                totalPrice=totalPrice
-            )
-            print('Order:', order)
-            
-            
+            with transaction.atomic():
+                medication_instance = Medication.objects.select_for_update().get(id=medication_id)
+                
+                # Get the quantity from the request body
+                quantity = int(request.data.get('quantity', 0))
+                totalPrice = request.data.get('totalPrice')
+                
+                if quantity <= medication_instance.quantity_available:
+                    # Update the quantity available
+                    medication_instance.quantity_available -= quantity
+                    medication_instance.save()
+                    
+                    # Create the order
+                    order = Order.objects.create(
+                        medication=medication_instance,
+                        user=request.user,
+                        quantity=quantity, 
+                        totalPrice=totalPrice
+                    )
+                    
+                    total_amount = totalPrice
+                    
+                    # Create invoice
+                    invoice = Invoice.objects.create(order=order, total_amount=total_amount)
+                    invoice_serializer = InvoiceSerializer(invoice)
 
-            total_amount = totalPrice
-            print('Total Amount:', total_amount)
-
-            
-            # Create invoice
-            invoice = Invoice.objects.create(order=order, total_amount=total_amount)
-            invoice_serializer = InvoiceSerializer(invoice)
-
-            data = {
-                'order': OrderSerializer(order).data,
-                'invoice': invoice_serializer.data
-            }
-            
-            return Response(data, status=status.HTTP_201_CREATED)
+                    data = {
+                        'order': OrderSerializer(order).data,
+                        'invoice': invoice_serializer.data
+                    }
+                    
+                    return Response(data, status=status.HTTP_201_CREATED)
+                else:
+                    return JsonResponse({'error': 'Not enough quantity available'}, status=status.HTTP_400_BAD_REQUEST)
         except Medication.DoesNotExist:
             error_message = f"Medication with ID '{medication_id}' not found."
             return JsonResponse({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print('Error:', e)  # Log the error
+            print('Error:', e)  
             return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
-    
-    # elif request.method == 'POST':
-    #     try:
-    #         medication_id = medication_id
-    #         medication_instance = Medication.objects.get(id=medication_id)
-    #         order = Order.objects.create(medication=medication_instance, user=request.user)
-    #         serializer = OrderSerializer(order)
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-    #     except Medication.DoesNotExist:
-    #         error_message = f"Medication with ID '{medication_id}' not found."
-    #         return JsonResponse({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
-        
-    #     except Exception as e:
-    #         return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         
 
@@ -396,41 +383,79 @@ def user_orders(request):
 
 
 
+# @api_view(['GET'])
+# def generate_invoice_pdf(request, order_id):
+#     try:
+#         order = Order.objects.get(id=order_id)
+#         invoice = Invoice.objects.get(order=order)
+        
+#         response = HttpResponse(content_type='application/pdf')
+#         response['Content-Disposition'] = f'attachment; filename="invoice_{order_id}.pdf"'
+
+#         # Create PDF
+#         p = canvas.Canvas(response, pagesize=letter)
+#         p.drawString(100, 750, f"Invoice for Order ID: {order_id}")
+#         p.drawString(100, 730, f"Total Amount: ${invoice.total_amount}")
+#         p.showPage()
+#         p.save()
+
+#         return response
+#     except Order.DoesNotExist:
+#         return Response({"error": "Order does not exist"}, status=status.HTTP_404_NOT_FOUND)
+#     except Invoice.DoesNotExist:
+#         return Response({"error": "Invoice does not exist"}, status=status.HTTP_404_NOT_FOUND)
+#     except Exception as e:
+#         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-import base64
-from django.template.loader import get_template
-from xhtml2pdf import pisa  # pip install xhtml2pdf
-from io import BytesIO 
+@api_view(['GET'])
+def generate_invoice_pdf(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        invoice = Invoice.objects.get(order=order)
+        user = order.user
 
-def generate_invoice_pdf(order):
-    # Construct HTML content for the invoice
-    html_content = f"""
-    <html>
-        <head>
-            <title>Invoice</title>
-            <style>
-                /* Define your CSS styles here */
-            </style>
-        </head>
-        <body>
-            <h1>Invoice</h1>
-            <p>Order ID: {order.id}</p>
-            <p>Medication: {order.medication}</p>
-            <p>Quantity: {order.quantity}</p>
-            <p>Total Price: {order.totalPrice}</p>
-            <!-- Add more order details as needed -->
-        </body>
-    </html>
-    """
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="invoice_{order_id}.pdf"'
 
-    # Create a PDF file
-    pdf_data = BytesIO()
-    pisa.CreatePDF(BytesIO(html_content.encode('utf-8')), dest=pdf_data)
+        # Create PDF
+        p = canvas.Canvas(response, pagesize=letter)
+        
+        # Add user's name and order date
+        p.drawString(100, 750, f"Customer Name: {user.first_name} {user.last_name}")
+        p.drawString(100, 730, f"Order Date: {invoice.date.strftime('%Y-%m-%d %H:%M:%S')}")
 
-    # Encode the PDF content as base64
-    encoded_pdf = base64.b64encode(pdf_data.getvalue()).decode('utf-8')
+        # Add table headers
+        table_headers = ["Item Name", "Quantity", "Unit Price", "Total Amount"]
+        table_y = 700
+        for i, header in enumerate(table_headers):
+            p.drawString(100 + i * 150, table_y, header)
 
-    # Return the base64 encoded PDF content
-    return encoded_pdf
+        # Add order details to the table
+        order_items = Order.objects.filter(id=order_id)
+        table_y -= 20
+        for item in order_items:
+            medication = item.medication
+            row_data = [
+                medication.name,
+                str(item.quantity),
+                f"Ksh{medication.price}",
+                f"Ksh{item.totalPrice}"
+            ]
+            for i, data in enumerate(row_data):
+                p.drawString(100 + i * 150, table_y, data)
+            table_y -= 20
+        
+        p.showPage()
+        p.save()
+
+        return response
+    except Order.DoesNotExist:
+        return Response({"error": "Order does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    except Invoice.DoesNotExist:
+        return Response({"error": "Invoice does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
