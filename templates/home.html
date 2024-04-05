@@ -49,7 +49,7 @@
             <th>Medication</th>
             <th>Quantity</th>
             <th>User</th>
-            <th>Status</th>
+            <th>Download Invoice</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +58,9 @@
             <td>{{ order.medication }}</td>
             <td>{{ order.user.email }}</td>
             <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
-            <td>{{ order.status }}</td>
+            <td>
+              <a href="{% url 'invoice_api' order.id %}" class="btn btn-primary">Download Invoice</a>
+            </td>
           </tr>
           {% empty %}
           <tr>
