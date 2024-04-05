@@ -18,6 +18,7 @@ urlpatterns = [
     path('medications/', views.MedicationsView, name='medications'),
     path('users/', views.UsersView, name='users'),
     path('invoices/', views.InvoicesView, name='invoices'),
+    path('download_invoice/<int:order_id>/', views.download_invoice_pdf, name='download_invoice'),
     path('api/profile/', views.UserProfileListView.as_view(), name='profile-list'),
 
     ####APP URLS######

@@ -7,39 +7,40 @@
     <div class='card-body d-flex justify-content-center'> <!-- Adding flexbox classes to center content -->
         <div class="card-body">
             <p>Orders List:</p>
-      <table id="ordersTable" class="display table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Medication</th>
-            <th>User Email</th>
-            <th>User Name</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in orders %}
-          <tr>
-            <td>{{ order.medication }}</td>
-            <td>{{ order.user.email }}</td>
-            <td>{{ order.user.first_name }}  {{ order.user.last_name }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.totalPrice }}</td>
-            
-                
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="4">No orders available</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            <table id="ordersTable" class="display table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>User Email</th>
+                        <th>User Name</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Download Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.medication }}</td>
+                        <td>{{ order.user.email }}</td>
+                        <td>{{ order.user.first_name }}  {{ order.user.last_name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.totalPrice }}</td>
+                        <td>
+                          <a href="{% url 'download_invoice' order.id %}" class="btn btn-primary">Download Invoice</a>
+                      </td>
+                      
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No orders available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 </body>
 
 {% endblock maincontent %}
-
-
