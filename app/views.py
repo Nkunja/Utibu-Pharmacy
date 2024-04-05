@@ -403,7 +403,7 @@ def generate_invoice_pdf(request, order_id):
         p.drawString(100, 750, "Invoice")
         p.drawString(100, 730, f"Order Date: {invoice.date.strftime('%Y-%m-%d %H:%M:%S')}")
         p.drawString(100, 710, f"Customer Name: {user.first_name} {user.last_name}")
-        p.drawString(100, 690, f"Amount: ${invoice.total_amount}")
+        p.drawString(100, 690, f"Amount: Ksh {invoice.total_amount}")
 
         # Add table with order details
         table_data = [
@@ -415,8 +415,8 @@ def generate_invoice_pdf(request, order_id):
             table_data.append([
                 medication.name,
                 str(item.quantity),
-                f"Ksh{medication.price}",
-                f"Ksh{item.totalPrice}"
+                f"Ksh {medication.price}",
+                f"Ksh {item.totalPrice}"
             ])
 
         table = Table(table_data, colWidths=[200, 100, 100, 100], hAlign='LEFT')
@@ -443,58 +443,3 @@ def generate_invoice_pdf(request, order_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def download_invoice_pdf(request, order_id):
-    try:
-        order = Order.objects.get(id=order_id)
-        invoice = Invoice.objects.get(order=order)
-        user = order.user
-
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="invoice_{order_id}.pdf"'
-
-        # Create PDF
-        p = canvas.Canvas(response, pagesize=letter)
-
-        # Add header
-        p.drawString(100, 750, "Invoice")
-        p.drawString(100, 730, f"Order Date: {invoice.date.strftime('%Y-%m-%d %H:%M:%S')}")
-        p.drawString(100, 710, f"Customer Name: {user.first_name} {user.last_name}")
-        p.drawString(100, 690, f"Amount: ${invoice.total_amount}")
-
-        # Add table with order details
-        table_data = [
-            ["Item Name", "Quantity", "Unit Price", "Total Amount"],
-        ]
-        order_items = Order.objects.filter(id=order_id)
-        for item in order_items:
-            medication = item.medication
-            table_data.append([
-                medication.name,
-                str(item.quantity),
-                f"Ksh{medication.price}",
-                f"Ksh{item.totalPrice}"
-            ])
-
-        table = Table(table_data, colWidths=[200, 100, 100, 100], hAlign='LEFT')
-        table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), 'gray'),
-            ('TEXTCOLOR', (0, 0), (-1, 0), 'white'),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('INNERGRID', (0, 0), (-1, -1), 0.25, 'black'),
-            ('BOX', (0, 0), (-1, -1), 0.25, 'black'),
-        ]))
-
-        table.wrapOn(p, 0, 0)
-        table.drawOn(p, 100, 650)
-
-        p.showPage()
-        p.save()
-
-        return response
-    except Order.DoesNotExist:
-        return Response({"error": "Order does not exist"}, status=status.HTTP_404_NOT_FOUND)
-    except Invoice.DoesNotExist:
-        return Response({"error": "Invoice does not exist"}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

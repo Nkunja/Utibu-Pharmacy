@@ -27,7 +27,7 @@
                         <td>{{ order.quantity }}</td>
                         <td>{{ order.totalPrice }}</td>
                         <td>
-                          <a href="{% url 'download_invoice' order.id %}" class="btn btn-primary">Download Invoice</a>
+                          <a href="{% url 'invoice_api' order.id %}" class="btn btn-primary">Download Invoice</a>
                       </td>
                       
                     </tr>
