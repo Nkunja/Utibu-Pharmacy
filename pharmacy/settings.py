@@ -29,9 +29,11 @@ SECRET_KEY = 'django-insecure-b^d@z=p$mrn5m+i6vk2!sj+rl14$(_kl)%c*^!^e(hgu)qk44z
 
 # SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = ['https://gnu-cosmic-civet.ngrok-free.app']
 
 
 # Application definition
