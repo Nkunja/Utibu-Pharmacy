@@ -19,6 +19,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Image</th>
             <th>Description</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -29,6 +30,7 @@
           {% for medication in medications %}
           <tr>
             <td>{{ medication.name }}</td>
+            <td><img src="{{ medication.image.url }}" alt="{{ medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
             <td>{{ medication.description }}</td>
             <td>{{ medication.price }}</td>
             <td>{{ medication.quantity_available }}</td>
@@ -47,6 +49,7 @@
         <thead>
           <tr>
             <th>Medication</th>
+            <th>Image</th>
             <th>Quantity</th>
             <th>User</th>
             <th>Download Invoice</th>
@@ -56,6 +59,7 @@
           {% for order in orders %}
           <tr>
             <td>{{ order.medication }}</td>
+            <td><img src="{{ order.medication.image.url }}" alt="{{ order.medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
             <td>{{ order.user.email }}</td>
             <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
             <td>

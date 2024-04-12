@@ -11,6 +11,7 @@
                 <thead>
                     <tr>
                         <th>Medication</th>
+                        <th>Image</th>
                         <th>User Email</th>
                         <th>User Name</th>
                         <th>Quantity</th>
@@ -22,6 +23,7 @@
                     {% for order in orders %}
                     <tr>
                         <td>{{ order.medication }}</td>
+                        <td><img src="{{ order.medication.image.url }}" alt="{{ order.medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
                         <td>{{ order.user.email }}</td>
                         <td>{{ order.user.first_name }}  {{ order.user.last_name }}</td>
                         <td>{{ order.quantity }}</td>

@@ -11,6 +11,7 @@
                     <thead>
                       <tr>
                         <th>Name</th>
+                        <th>Image</th>
                         <th>Description</th>
                         <th>Price</th>
                         <th>Quantity</th>
@@ -21,6 +22,7 @@
                       {% for medication in medications %}
                       <tr>
                         <td>{{ medication.name }}</td>
+                        <td><img src="{{ medication.image.url }}" alt="{{ medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
                         <td>{{ medication.description }}</td>
                         <td>{{ medication.price }}</td>
                         <td>{{ medication.quantity_available }}</td>
