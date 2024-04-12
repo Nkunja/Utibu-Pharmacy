@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import  UserProfile, Medication, Order, Invoice, Payment
+from django.conf import settings
+import base64
+
 
 
 # class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -37,11 +40,27 @@ class UserLoginSerializer(serializers.Serializer):
 
         return data
 
+# class MedicationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Medication
+#         fields = '__all__'
+
+
 class MedicationSerializer(serializers.ModelSerializer):
+    image_data = serializers.SerializerMethodField()
+
     class Meta:
         model = Medication
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'price', 'quantity_available', 'category', 'image_data']
 
+    def get_image_data(self, obj):
+        if obj.image:
+            with open(obj.image.path, "rb") as f:
+                image_bytes = f.read()
+                return base64.b64encode(image_bytes).decode("utf-8")
+        return None
+
+    
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

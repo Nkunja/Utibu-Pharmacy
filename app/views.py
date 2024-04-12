@@ -366,7 +366,7 @@ def submit_orderApi(request):
 @login_required
 def add_medication(request):
     if request.method == 'POST':
-        form = MedicationForm(request.POST)
+        form = MedicationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home') 

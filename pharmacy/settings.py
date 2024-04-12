@@ -29,11 +29,12 @@ SECRET_KEY = 'django-insecure-b^d@z=p$mrn5m+i6vk2!sj+rl14$(_kl)%c*^!^e(hgu)qk44z
 
 # SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://gnu-cosmic-civet.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://gnu-cosmic-civet.ngrok-free.app',
+                        'http://127.0.0.1:8000']
 
 
 # Application definition
@@ -148,7 +149,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type

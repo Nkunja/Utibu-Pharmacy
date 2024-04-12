@@ -27,8 +27,17 @@ class PatientRegistrationForm(forms.ModelForm):
         self.fields['role'] = forms.CharField(initial='patient', widget=forms.HiddenInput())
 
 
+# class MedicationForm(forms.ModelForm):
+#     class Meta:
+#         model = Medication
+#         fields = ['name', 'description', 'price', 'quantity_available', 'category']
+
 class MedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
-        fields = ['name', 'description', 'price', 'quantity_available', 'category']
+        fields = ['name', 'description', 'price', 'quantity_available', 'category', 'image']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'multiple': False})
+        }
+
 
