@@ -396,7 +396,7 @@ def generate_invoice_pdf(request, order_id):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="invoice_{order_id}.pdf"'
 
-        # Create PDF
+        # Creating a PDF
         p = canvas.Canvas(response, pagesize=letter)
 
         # Add header
