@@ -2,7 +2,6 @@ venv
 
 db.sqlite3
 
-app/migrations
 app/__pycache__
 __pycache
 
