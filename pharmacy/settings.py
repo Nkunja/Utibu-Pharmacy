@@ -34,6 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['https://gnu-cosmic-civet.ngrok-free.app',
+                        'https://utibu-pharmacy.onrender.com'
                         'http://127.0.0.1:8000']
 
 
