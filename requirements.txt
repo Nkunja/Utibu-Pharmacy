@@ -1,6 +1,7 @@
 arabic-reshaper==3.0.0
 asgiref==3.8.1
 asn1crypto==1.5.1
+Brotli==1.1.0
 certifi==2024.2.2
 cffi==1.16.0
 chardet==5.2.0
@@ -39,4 +40,5 @@ tzlocal==5.2
 uritools==4.0.2
 urllib3==2.2.1
 webencodings==0.5.1
+whitenoise==6.6.0
 xhtml2pdf==0.2.15
