@@ -1,20 +1,23 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Pharmacy Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Utibu Pharmacy</title>
     <!-- Bootstrap CSS -->
-    <link href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <style>
         /* Custom Styles */
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa; /* Light gray background */
             color: #343a40; /* Dark gray text */
+            min-height: 100vh;
+            position: relative;
         }
         header {
             background-color: #343a40; /* Dark blue header */
@@ -41,33 +44,52 @@
             text-decoration: none;
         }
         section {
-            padding: 20px;
+            padding: 40px 20px;
+            flex-grow: 1;
         }
         .description {
             text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        
         .description h2 {
-            font-size: 24px;
+            font-size: 36px;
             margin-bottom: 20px;
         }
-        
         .description p {
-            font-size: 16px;
-            line-height: 1.5;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #6c757d; /* Dark gray text */
         }
-        
         footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             background-color: #343a40; 
             color: #fff; 
-            padding: 10px;
+            padding: 20px 0;
             text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
-        
+        .btn-login {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+        .btn-register {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+        .btn-register:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -77,25 +99,27 @@
 
     <nav>
         <ul>
-            {% comment %} <li><a href="{% url 'index' %}">Home</a></li> {% endcomment %}
-            <li><a href="{% url 'admin_login' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'admin_login' %}" class="btn btn-login">Login</a></li>
+            <li><a href="{% url 'register' %}" class="btn btn-register">Register</a></li>
         </ul>
     </nav>
 
     <section>
-        <div class="description">
-            <h2>Welcome to the Pharmacy Admin Dashboard</h2>
-            <p>The Pharmacy Admin Dashboard provides comprehensive tools for the pharmacist at Utibu Health Center to efficiently manage inventory, customer orders, sales, invoices, and payments. With a user-friendly interface and intuitive navigation, the dashboard streamlines pharmacy operations, enhances productivity, and ensures smooth management of day-to-day tasks.</p>
+        <div class="container">
+            <div class="description">
+                <h2>Welcome to the Pharmacy Admin Dashboard</h2>
+                <p>The Pharmacy Admin Dashboard provides comprehensive tools for the pharmacist at Utibu Health Center to efficiently manage inventory, customer orders, sales, invoices, and payments. With a user-friendly interface and intuitive navigation, the dashboard streamlines pharmacy operations, enhances productivity, and ensures smooth management of day-to-day tasks.</p>
+            </div>
         </div>
     </section>
-    
 
     <footer>
-        <p>&copy; 2024 Pharmacy Admin</p>
+        <div class="container">
+            <p>&copy; 2024 Pharmacy Admin</p>
+        </div>
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="{% static "assets/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
