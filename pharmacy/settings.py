@@ -24,12 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b^d@z=p$mrn5m+i6vk2!sj+rl14$(_kl)%c*^!^e(hgu)qk44z'
+# SECRET_KEY = 'django-insecure-b^d@z=p$mrn5m+i6vk2!sj+rl14$(_kl)%c*^!^e(hgu)qk44z'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 # SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = False
+DEBUG = os.getenv('DEBUG')
+
+
+# Application definition
 
 ALLOWED_HOSTS = ['*']
 
@@ -103,12 +108,34 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
+
+# db
+if DEVELOPMENT_MODE:
+    # local env
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # live 
+    database_url = os.environ.get("DATABASE_URL")
+    DATABASES = {
+        'default': dj_database_url.parse(database_url)
+    }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+
 
 
 # Password validation
