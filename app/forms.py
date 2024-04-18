@@ -35,9 +35,9 @@ class PatientRegistrationForm(forms.ModelForm):
 class MedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
-        fields = ['name', 'description', 'price', 'quantity_available', 'category', 'image']
-        widgets = {
-            'image': forms.ClearableFileInput(attrs={'multiple': False})
-        }
+        fields = ['name', 'description', 'price', 'quantity_available', 'category', 'image_url']
+        # widgets = {
+        #     'image_url': forms.ClearableFileInput(attrs={'multiple': False})
+        # }
 
 

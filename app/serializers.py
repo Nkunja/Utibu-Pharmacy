@@ -54,7 +54,7 @@ class MedicationSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'price', 'quantity_available', 'category', 'image_data']
 
     def get_image_data(self, obj):
-        if obj.image:
+        if obj.image_url:
             with open(obj.image.path, "rb") as f:
                 image_bytes = f.read()
                 return base64.b64encode(image_bytes).decode("utf-8")

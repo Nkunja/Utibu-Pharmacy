@@ -11,3 +11,4 @@ db.sqlite3
 
 
 pharmacy/__pycache
+.env*.local
