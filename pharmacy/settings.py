@@ -109,19 +109,20 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
+# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
 
-# db
-if DEVELOPMENT_MODE:
+# # db
+# if DEVELOPMENT_MODE:
     # local env
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    # live 
+    DATABASES = 
+    # {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+#     # live 
     database_url = os.environ.get("DATABASE_URL")
     DATABASES = {
         'default': dj_database_url.parse(database_url)
