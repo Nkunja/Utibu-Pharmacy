@@ -113,9 +113,8 @@ REST_FRAMEWORK = {
 
 # # db
 # if DEVELOPMENT_MODE:
-    # local env
-    DATABASES = 
-    # {
+#     # local env
+#     DATABASES = {
 #         'default': {
 #             'ENGINE': 'django.db.backends.sqlite3',
 #             'NAME': BASE_DIR / 'db.sqlite3',
@@ -123,17 +122,16 @@ REST_FRAMEWORK = {
 #     }
 # else:
 #     # live 
-    database_url = os.environ.get("DATABASE_URL")
-    DATABASES = {
-        'default': dj_database_url.parse(database_url)
-    }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     database_url = os.environ.get("DATABASE_URL")
+#     DATABASES = {
+#         'default': dj_database_url.parse(database_url)
 #     }
-# }
+
+DATABASES = {
+    database_url = os.environ.get("DATABASE_URL")
+    'default': dj_database_url.parse(database_url)
+    
+}
 
 
 
