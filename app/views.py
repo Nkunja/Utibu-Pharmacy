@@ -28,9 +28,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
-# def csrf_token(request):
-#     csrf_token = get_token(request)
-#     return JsonResponse({'csrfToken': csrf_token})
+def csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
 
 
 def Index(request):
@@ -123,7 +123,7 @@ def RegisterView(request):
 
     return render(request, 'register.html', {'form': form})
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(['POST'])
 def registerApi(request):
     if request.method == 'POST':
@@ -174,7 +174,7 @@ def PatientRegisterView(request):
 
 
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(['POST'])
 def LoginView(request):
     serializer = UserLoginSerializer(data=request.data)
