@@ -16,6 +16,7 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Category</th>
+                        <th>Edit</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -27,6 +28,9 @@
                         <td>{{ medication.price }}</td>
                         <td>{{ medication.quantity_available }}</td>
                         <td>{{ medication.category }}</td>
+                        <td>
+                          <a href="{% url 'edit_medication' medication_id=medication.id %}">Edit Medication</a>
+                        </td>
                       </tr>
                       {% empty %}
                       <tr>

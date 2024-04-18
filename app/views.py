@@ -374,6 +374,32 @@ def add_medication(request):
         form = MedicationForm()
     return render(request, 'add_medication.html', {'form': form})
 
+@login_required
+def edit_medication(request, medication_id):
+    # Retrieve the medication object to edit
+    medication = get_object_or_404(Medication, pk=medication_id)
+    
+    if request.method == 'POST':
+        form = MedicationForm(request.POST, request.FILES, instance=medication)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = MedicationForm(instance=medication)
+    
+    return render(request, 'edit_medication.html', {'form': form})
+
+@login_required
+def delete_medication(request, medication_id):
+    # Retrieve the medication object to delete
+    medication = get_object_or_404(Medication, pk=medication_id)
+    
+    if request.method == 'POST':
+        medication.delete()
+        return redirect('home')
+    
+    return render(request, 'delete_medication.html', {'medication': medication})
+
 
 
 @api_view(['GET'])

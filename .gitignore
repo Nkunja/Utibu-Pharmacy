@@ -1,7 +1,11 @@
 venv
 
 app/__pycache__
-__pycache
+__pycache__
+
+.env
+
+db.sqlite3
 
 
 pharmacy/__pycache
