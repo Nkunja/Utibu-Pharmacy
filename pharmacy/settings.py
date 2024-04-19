@@ -40,8 +40,9 @@ DEBUG = os.getenv('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['https://gnu-cosmic-civet.ngrok-free.app',
-                        'https://utibu-pharmacy.onrender.com'
-                        'http://127.0.0.1:8000']
+                        'https://utibu-pharmacy.onrender.com',
+                        'http://127.0.0.1:8000',
+                        'exp://192.168.1.234:19000']
 
 
 # Application definition
