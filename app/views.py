@@ -174,7 +174,6 @@ def PatientRegisterView(request):
 
 
 
-# @csrf_exempt
 @api_view(['POST'])
 def LoginView(request):
     serializer = UserLoginSerializer(data=request.data)
