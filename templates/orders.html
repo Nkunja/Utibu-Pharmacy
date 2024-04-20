@@ -6,14 +6,14 @@
     <h1>Orders List</h1>
     <div class='card-body d-flex justify-content-center'> <!-- Adding flexbox classes to center content -->
         <div class="card-body">
-            <p>Orders List:</p>
+            {% comment %} <p>Orders List:</p> {% endcomment %}
             <table id="ordersTable" class="display table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Medication</th>
+                        <th>Patient</th>
                         <th>Image</th>
-                        <th>User Email</th>
-                        <th>User Name</th>
+                        <th>Medication</th>
+                        <th>Unit Price</th>
                         <th>Quantity</th>
                         <th>Total Price</th>
                         <th>Download Invoice</th>
@@ -22,10 +22,11 @@
                 <tbody>
                     {% for order in orders %}
                     <tr>
-                        <td>{{ order.medication }}</td>
+                        <td>{{ order.user.first_name }}  {{ order.user.last_name }} <br>
+                            {{ order.user.email }} </td>
                         <td><img src="{{ order.medication.image_url }}" alt="{{ order.medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
-                        <td>{{ order.user.email }}</td>
-                        <td>{{ order.user.first_name }}  {{ order.user.last_name }}</td>
+                        <td>{{ order.medication }}</td>
+                        <td>{{ order.medication.price }}</td>
                         <td>{{ order.quantity }}</td>
                         <td>{{ order.totalPrice }}</td>
                         <td>
