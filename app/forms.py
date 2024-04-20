@@ -2,8 +2,6 @@ from django import forms
 from .models import UserProfile, Medication, Medication
         
 
-
-
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -27,10 +25,6 @@ class PatientRegistrationForm(forms.ModelForm):
         self.fields['role'] = forms.CharField(initial='patient', widget=forms.HiddenInput())
 
 
-# class MedicationForm(forms.ModelForm):
-#     class Meta:
-#         model = Medication
-#         fields = ['name', 'description', 'price', 'quantity_available', 'category']
 
 class MedicationForm(forms.ModelForm):
     class Meta:

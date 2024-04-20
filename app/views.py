@@ -43,6 +43,12 @@ def Home(request):
     medications = Medication.objects.all()
     orders = Order.objects.all()
     
+    
+    total_orders = orders.count()
+    total_sales = orders.aggregate(total_sales=Sum('totalPrice'))['total_sales'] or 0
+    patients_count = UserProfile.objects.filter(role='patient').count()
+    
+    
     # Serialize data
     medication_serializer = MedicationSerializer(medications, many=True)
     order_serializer = OrderSerializer(orders, many=True)
@@ -52,7 +58,10 @@ def Home(request):
         'medications': medications,
         'orders': orders,
         'user': user,
-        'session': request.session.session_key
+        'session': request.session.session_key,
+        'total_orders': total_orders,
+        'total_sales': total_sales,
+        'total_patients': patients_count
     }
     
     return render(request, 'home.html', context)
@@ -64,6 +73,8 @@ def homeApi(request):
     medications = Medication.objects.all()
     orders = Order.objects.all()
     
+
+    
     # Serialize data
     medication_serializer = MedicationSerializer(medications, many=True)
     order_serializer = OrderSerializer(orders, many=True)
@@ -73,7 +84,8 @@ def homeApi(request):
         'medications': medication_serializer.data,
         'orders': order_serializer.data,
         'user': user.email,
-        'session': request.session.session_key
+        'session': request.session.session_key,
+        
     }
     
     return Response(data)
@@ -123,7 +135,6 @@ def RegisterView(request):
 
     return render(request, 'register.html', {'form': form})
 
-# @csrf_exempt
 @api_view(['POST'])
 def registerApi(request):
     if request.method == 'POST':
