@@ -23,7 +23,7 @@
                             {% comment %} <td>{{ invoice.order.user }}</td> {% endcomment %}
                             <td>{{ invoice.order }}</td>
                             {% comment %} <td>{{ invoice.order.medication.image_url }}</td> {% endcomment %}
-                            <td><img src="{{ invoice.order.medication.image_url }}" alt="{{ medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
+                            <td><img src="{{ invoice.order.medication.image_url }}" alt="{{ invoice.order.medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
                             <td>{{ invoice.order.medication.price }}</td>
                             <td>{{ invoice.order.quantity }}</td>
                             <td>{{ invoice.total_amount }}</td>
