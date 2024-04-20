@@ -9,15 +9,27 @@
             <table class="table">
                 <thead>
                     <tr>
+                        {% comment %} <th>Patient</th> {% endcomment %}
                         <th>Order</th>
+                        <th>Image</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
                         <th>Total Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for invoice in invoices %}
                         <tr>
+                            {% comment %} <td>{{ invoice.order.user }}</td> {% endcomment %}
                             <td>{{ invoice.order }}</td>
+                            {% comment %} <td>{{ invoice.order.medication.image_url }}</td> {% endcomment %}
+                            <td><img src="{{ invoice.order.medication.image_url }}" alt="{{ medication.name }}" style="max-width: 100px; max-height: 100px;"></td>
+                            <td>{{ invoice.order.medication.price }}</td>
+                            <td>{{ invoice.order.quantity }}</td>
                             <td>{{ invoice.total_amount }}</td>
+                            {% comment %} <td>
+                                <a href="{% url 'invoice_api' order.id %}" class="btn btn-primary">Download Invoice</a>
+                            </td> {% endcomment %}
                         </tr>
                     {% endfor %}
                 </tbody>
