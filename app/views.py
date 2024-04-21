@@ -37,7 +37,7 @@ def Index(request):
     return render(request, 'index.html')
 
 
-
+@login_required(login_url='admin_login')
 def Home(request):
     user = request.user
     medications = Medication.objects.all()
@@ -66,7 +66,7 @@ def Home(request):
     
     return render(request, 'home.html', context)
 
-
+@login_required
 @api_view(['GET'])
 def homeApi(request):
     user = request.user
@@ -91,24 +91,28 @@ def homeApi(request):
     return Response(data)
 
 
+@login_required
 class UserProfileListView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
 
-
+@login_required
 def PatientHome(request):
     user = request.user
     return render(request, 'patient_home.html', {'user': user})
 
+@login_required(login_url='admin_login')
 def UsersView(request):
     users = UserProfile.objects.filter(role='patient')
     return render(request, 'users.html', {'users': users})
 
+@login_required(login_url='admin_login')
 def OrdersView(request):
     orders = Order.objects.all()
     return render(request, 'orders.html', {'orders': orders})
 
+@login_required(login_url='admin_login')
 def InvoicesView(request):
     invoices = Invoice.objects.all()
     return render(request, 'invoices.html', {'invoices': invoices})
@@ -147,6 +151,7 @@ def registerApi(request):
     print(serializer.errors)
 
 
+@login_required(login_url='admin_login')
 def AddPatientView(request):
     if request.method == 'POST':
         form = PatientRegistrationForm(request.POST, request.FILES)
@@ -227,7 +232,7 @@ def AdminLoginView(request):
 
 
 
-
+@login_required
 @api_view(['GET'])
 def user_profile(request):
     user = request.user
@@ -235,7 +240,7 @@ def user_profile(request):
     return Response(serializer.data)
 
 
-    
+@login_required 
 @api_view(['GET', 'POST'])
 def medication_list(request):
     if request.method == 'GET':
@@ -250,7 +255,7 @@ def medication_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
+@login_required
 @api_view(['GET', 'POST'])
 def medication_details(request, medication_id):
     if request.method == 'GET':
@@ -308,7 +313,7 @@ def medication_details(request, medication_id):
 
 
         
-
+@login_required
 def MedicationsView(request):
     if request.method == 'GET':
         medications = Medication.objects.all()
@@ -323,6 +328,7 @@ def MedicationsView(request):
             medications = Medication.objects.all()
             return render(request, 'medications.html', {'medications': medications, 'form': form})
 
+@login_required
 @api_view(['GET', 'POST'])
 def order_list(request):
     if request.method == 'GET':
@@ -347,7 +353,7 @@ class LogoutAPI(APIView):
         return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
 
     
-
+@login_required
 @api_view(['POST'])
 def submit_orderApi(request):
     if request.method == 'POST':
@@ -376,8 +382,8 @@ def submit_orderApi(request):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-@login_required
+
+@login_required(login_url='admin_login')
 def add_medication(request):
     if request.method == 'POST':
         form = MedicationForm(request.POST, request.FILES)
@@ -388,7 +394,8 @@ def add_medication(request):
         form = MedicationForm()
     return render(request, 'add_medication.html', {'form': form})
 
-@login_required
+
+@login_required(login_url='admin_login')
 def edit_medication(request, medication_id):
     # Retrieve the medication object to edit
     medication = get_object_or_404(Medication, pk=medication_id)
@@ -403,7 +410,7 @@ def edit_medication(request, medication_id):
     
     return render(request, 'edit_medication.html', {'form': form})
 
-@login_required
+@login_required(login_url='admin_login')
 def delete_medication(request, medication_id):
     # Retrieve the medication object to delete
     medication = get_object_or_404(Medication, pk=medication_id)
