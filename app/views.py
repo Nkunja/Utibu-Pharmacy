@@ -100,7 +100,7 @@ class UserProfileListView(generics.ListAPIView):
 @login_required
 def PatientHome(request):
     user = request.user
-    medication = medication.objects.all()
+    medication = Medication.objects.all()
     return render(request, 'patient_home.html', {'user': user, 'medication': medication})
 
 @login_required(login_url='admin_login')
