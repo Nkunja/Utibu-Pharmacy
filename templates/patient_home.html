@@ -15,132 +15,13 @@
   {% endif %}
 
 
-{% comment %} <section class="section dashboard">
-  <div class="row">
-
-    <div class="col-lg-12">
-      <div class="row">
-
-        <!-- Sales Card -->
-        <div class="col-xxl-4 col-md-6">
-          <div class="card info-card sales-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Orders <span>| Today</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-cart"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>{{ total_orders }}</h6>
-                  <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div><!-- End Sales Card -->
-
-        <!-- Revenue Card -->
-        <div class="col-xxl-4 col-md-6">
-          <div class="card info-card revenue-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-currency-dollar"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>{{ total_sales }}</h6>
-                  <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div><!-- End Revenue Card -->
-
-        <!-- Customers Card -->
-        <div class="col-xxl-4 col-xl-12">
-
-          <div class="card info-card customers-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Patients  <span>| This Year</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-people"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>{{ total_patients }}</h6>
-                  <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div><!-- End Customers Card -->
-             
-
-      </div>
-    </div>
-
-  </div>
-</section> {% endcomment %}
-
 <div class="container-fluid site-width">
     <div class="row">
         <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
+                        {% for med in medication %}
                         <div class="col-md-6 col-lg-3 mb-4">
                             <div class="position-relative">
                                 <img src="dist/images/ecommerce-img1.jpg" alt="" class="img-fluid">
@@ -158,239 +39,28 @@
                                 </div>
                             </div>
                             <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
+                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">{{ med.name }}</a></p>
                                 <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
+                                    <div class="d-inline-block"><del>{{ med.old_price }}</del></div>
+                                    <div class="d-inline-block text-danger pl-2">{{ med.new_price }}</div>
+                                    <!-- Assuming you have a rating field in your Medication model -->
                                     <ul class="list-inline mb-0 mt-2">
+                                        {% for _ in med.rating %}
                                         <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
+                                        {% endfor %}
+                                        <!-- Add empty stars for the remaining ratings -->
+                                        {% for _ in 1|add:-(med.rating.count) %}
                                         <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img2.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img3.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img4.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img5.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img6.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img7.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="position-relative">
-                                <img src="dist/images/ecommerce-img8.jpg" alt="" class="img-fluid">
-                                <div class="caption-bg fade bg-transparent text-right">
-                                    <div class="d-table w-100 h-100 ">
-                                        <div class="d-table-cell align-bottom">
-                                            <div class="mb-3">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                            </div>
-                                            <div class="mb-4">
-                                                <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-3">
-                                <p class="mb-2"><a href="#" class="font-weight-bold text-primary">Flowers Structured Coat</a></p>
-                                <div class="clearfix">
-                                    <div class="d-inline-block"><del>$398.00  </del></div>
-                                    <div class="d-inline-block text-danger pl-2">$285.00</div>
-                                    <ul class="list-inline mb-0 mt-2">
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
+                    
+
+                       
                     <div class="row">
                         <div class="col-12 col-sm-12">
                             <nav>
