@@ -24,16 +24,16 @@
                         {% for med in medication %}
                         <div class="col-md-6 col-lg-3 mb-4">
                             <div class="position-relative">
-                                <img src="{{ med.image_url }}" alt="{{ med.name }}" class="img-fluid">
+                                <img src="{{ med.image_url }}" alt="{{ med.name }}" style="max-width: 100px; max-height: 100px;" class="img-fluid">
                                 <div class="caption-bg fade bg-transparent text-right">
                                     <div class="d-table w-100 h-100">
                                         <div class="d-table-row">
                                             <div class="d-table-cell align-bottom">
                                                 <div class="mb-3">
-                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
+                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="material-icons">favorite</i></a>
                                                 </div>
                                                 <div class="mb-4">
-                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
+                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="material-icons">shopping_bag</i></a>
                                                 </div>
                                             </div>
                                         </div>
