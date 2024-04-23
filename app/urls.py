@@ -18,6 +18,8 @@ urlpatterns = [
     path('medications/', views.MedicationsView, name='medications'),
     path('users/', views.UsersView, name='users'),
     path('invoices/', views.InvoicesView, name='invoices'),
+    path('my_invoices/', views.MyInvoicesView, name='my_invoices'),
+    path('my_orders/', views.MyOrdersView, name='my_orders'),
     # path('api/profile/', views.UserProfileListView.as_view(), name='profile-list'),
      path('medications/edit/<int:medication_id>/', views.edit_medication, name='edit_medication'),
 

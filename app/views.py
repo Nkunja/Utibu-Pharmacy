@@ -117,6 +117,17 @@ def InvoicesView(request):
     invoices = Invoice.objects.all()
     return render(request, 'invoices.html', {'invoices': invoices})
 
+@login_required
+def MyInvoicesView(request):
+    user = request.user  
+    invoices = Invoice.objects.filter(user=user)  
+    return render(request, 'invoices.html', {'invoices': invoices})
+
+@login_required
+def MyOrdersView(request):
+    user = request.user  
+    orders = Order.objects.filter(user=user)
+    return render(request, 'orders.html', {'orders': orders})
 
 def RegisterView(request):
     if request.method == 'POST':
