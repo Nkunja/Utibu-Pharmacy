@@ -49,9 +49,15 @@
                                         <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
                                         {% endfor %}
                                         <!-- Add empty stars for the remaining ratings -->
-                                        {% for _ in 1|add:-(med.rating.count) %}
-                                        <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
+                                        <!-- Assuming maximum rating is 5 -->
+                                        {% for _ in 1|upto:5 %}
+                                        {% if forloop.counter <= med.rating.count %}
+                                            <li class="list-inline-item"><a href="#" class="text-primary"><i class="icon-star"></i></a></li>
+                                        {% else %}
+                                            <li class="list-inline-item"><a href="#"><i class="icon-star"></i></a></li>
+                                        {% endif %}
                                         {% endfor %}
+
                                     </ul>
                                 </div>
                             </div>
