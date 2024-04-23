@@ -63,7 +63,7 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      {% if request.user.admin %}
+      {% if user.role == 'admin' %}
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'home' %}">
