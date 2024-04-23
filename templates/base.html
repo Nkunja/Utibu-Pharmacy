@@ -63,6 +63,8 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+      {% if request.user.admin %}
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'home' %}">
           <i class="bi bi-grid"></i>
@@ -161,6 +163,16 @@
           <span>Logout</span>
         </a>
       </li><!-- End Login Page Nav -->
+
+    {% else %}
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'logout' %}">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+    {% endif  %}
 
     </ul>
 
