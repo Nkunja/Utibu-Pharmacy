@@ -166,12 +166,75 @@
 
     {% else %}
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'logout' %}">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Logout</span>
-      </a>
-    </li>
+    <a class="nav-link collapsed" href="{% url 'patient' %}">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#medication-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-menu-button-wide"></i><span>Medication</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="medication-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="{% url 'medications' %}">
+          <i class="bi bi-circle"></i><span>View Medication List</span>
+        </a>
+      </li>        
+    </ul>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-menu-button-wide"></i><span>Orders</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="#">
+          <i class="bi bi-circle"></i><span>View Orders List</span>
+        </a>
+      </li>         
+    </ul>
+  </li>
+
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#invoices-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-menu-button-wide"></i><span>Invoices</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="invoices-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="#">
+          <i class="bi bi-circle"></i><span>View Invoices</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="nav-heading">Pages</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#">
+      <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#">
+      <i class="bi bi-envelope"></i>
+      <span>Contact</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'logout' %}">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Logout</span>
+    </a>
+  </li><!-- End Login Page Nav -->
     {% endif  %}
 
     </ul>
