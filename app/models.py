@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 
 
 
@@ -111,3 +113,61 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment for Invoice ID: {self.invoice.id}"
+
+
+
+
+class Service(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.URLField()
+    cta = models.CharField(max_length=100)
+
+
+@receiver(post_migrate)
+def create_dummy_data(sender, **kwargs):
+    if sender.name == 'app':  
+        dummy_data = [
+            {
+                'title': 'Plumbers',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3wXfTdyyAyJDduFLK3ZuwwSiF0DzmVjJgPw&s',
+                'cta': 'Request Service', 
+            },
+            {
+                'title': 'Electricians',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU37gE03atB1XhIj3YC8dQ6UWHf9toxrd61w&s',
+                'cta': 'Request Service'
+            },
+            {
+                'title': 'Mechanics',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDS9api1pZzvauJgQ78jWoilCHMqL3OGLsRw&s',
+                'cta': 'Request Service' 
+            },
+            {
+                'title': 'Make Up & Beauty',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJYpCiNlRPqeTmH529QrRlo5__3-39eIzAcmGpTh3Ecn9olJMwqzffFgPFDdkdOIgowmk&usqp=CAU',
+                'cta': 'Request Service' 
+            },
+            {
+                'title': 'Movers & Logistics Services',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTduPiO06J1DvnqKQJUMz15Box3c5PCTbJgTA&s',
+                'cta': 'Request Service' 
+            },
+            {
+                'title': 'Driver',
+                'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmrkT54iNtIfuPd-hklT0_bo2rnyRmVVi_TA&s',
+                'cta': 'Request Service' 
+            },
+            {
+                'title': 'Painter',
+                'image': 'https://www.shutterstock.com/image-photo/handyman-painting-ceiling-white-dye-260nw-1962145909.jpg',
+                'cta': 'Request Service' 
+            },
+            {
+                'title': 'Cleaning Services',
+                'image': 'https://cdn3d.iconscout.com/3d/premium/thumb/cleaning-workers-5012758-4171885.png?f=webp',
+                'cta': 'Request Service' 
+            }
+        ]
+
+        for data in dummy_data:
+            Service.objects.get_or_create(**data)

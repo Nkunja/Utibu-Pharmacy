@@ -502,3 +502,8 @@ def generate_invoice_pdf(request, order_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ServiceList(APIView):
+    def get(self, request, format=None):
+        services = Service.objects.all()
+        serializer = ServiceSerializer(services, many=True)
+        return Response(serializer.data)

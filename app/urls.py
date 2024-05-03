@@ -36,4 +36,9 @@ urlpatterns = [
     path('api/submit_order/', views.submit_orderApi, name='submit_order_api'),#new
     path('profile/', views.user_profile, name='user_profile'),
     path('csrf_token/', views.csrf_token, name='csrf_token'),
+    
+    ####EXTRA### 
+    
+    path('api/services/', views.ServiceList.as_view(), name='service-list'),
+
 ]

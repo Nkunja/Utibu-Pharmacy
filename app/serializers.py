@@ -81,3 +81,9 @@ class PatientRegistrationSerializer(serializers.ModelSerializer):
         validated_data['role'] = 'patient'  
         user = UserProfile.objects.create_user(**validated_data)
         return user
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ['title', 'image', 'cta']
