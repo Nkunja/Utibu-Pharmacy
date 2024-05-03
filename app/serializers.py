@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import  UserProfile, Medication, Order, Invoice, Payment
+from .models import  UserProfile, Medication, Order, Invoice, Payment, Service
 from django.conf import settings
 import base64
 
