@@ -1,14 +1,6 @@
 venv
-.env
-
-app/__pycache__
 __pycache__
-
-/.env
-
-/db.sqlite3
+.env
 db.sqlite3
-
-
-pharmacy/__pycache
-.env*.local
+/app/__pycache__
+/__pycache__
