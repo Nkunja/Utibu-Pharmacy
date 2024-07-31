@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+from urllib.parse import urlparse
+from supabase import create_client, Client
 
 load_dotenv()
 
@@ -110,6 +112,35 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get("DB_NAME"),        # Aiven PostgreSQL database name
+#         'USER': os.environ.get("DB_USER"),        # Aiven PostgreSQL user
+#         'PASSWORD': os.environ.get("DB_PASSWORD"),# Aiven PostgreSQL password
+#         'HOST': os.environ.get("DB_HOST"),        # Aiven PostgreSQL host (usually ends with .aivencloud.com)
+#         'PORT': os.environ.get("DB_PORT"),        # Aiven PostgreSQL port (default is 5432)
+#     }
+# }
+
+
+# SUPABASE_URL = os.environ.get("SUPABASE_URL")
+# SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+# supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get("DB_NAME"),
+#         'USER': os.environ.get("DB_USER"),
+#         'PASSWORD': os.environ.get("DB_PASSWORD"),
+#         'HOST': urlparse(SUPABASE_URL).hostname,
+#         'PORT': urlparse(SUPABASE_URL).port,
+#     }
+# }
+
 
 
 database_url = os.environ.get("DATABASE_URL")

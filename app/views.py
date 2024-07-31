@@ -26,6 +26,7 @@ from django.template.loader import get_template
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum  
+from django.utils import timezone
 
 
 def csrf_token(request):
@@ -142,6 +143,8 @@ def RegisterView(request):
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
                 role=form.cleaned_data['role'],
+                date_joined=timezone.now(),
+
             )
 
             if user:
