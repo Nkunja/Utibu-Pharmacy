@@ -15,7 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 from urllib.parse import urlparse
-from supabase import create_client, Client
+# from supabase import create_client, Client
 
 load_dotenv()
 
